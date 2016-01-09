@@ -1,7 +1,7 @@
 package pl.poczta.polska.filemanager;
 
-import org.carrot2.shaded.guava.common.base.Splitter;
-import org.carrot2.shaded.guava.common.collect.Iterables;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import pl.poczta.polska.model.City;
 
 import java.io.BufferedReader;
@@ -78,7 +78,15 @@ public class TSPFileParserImpl implements TSPFileParser {
 
     private boolean isValid(Iterable<String> splittedData) {
         int sizeOfArray = Iterables.size(splittedData);
-        return sizeOfArray == 3;
+        if (sizeOfArray != 3)
+            return false;
+
+        String firstData = splittedData.iterator().next();
+        boolean notNumber = !firstData.matches(".*\\d+.*");
+        if (notNumber)
+            return false;
+
+        return true;
     }
 
     private void openFile(String fileName) {

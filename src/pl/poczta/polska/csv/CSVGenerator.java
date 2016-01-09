@@ -10,7 +10,7 @@ public class CSVGenerator {
 
     String SEPARATOR = ";";
 
-    public void createFile(int generations, int population, boolean random) {
+    public String createFile(int generations, int population, boolean random) {
         String filename = getFilename(generations, population, random);
         try {
             FileWriter writer = new FileWriter(filename);
@@ -29,11 +29,12 @@ public class CSVGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return filename;
     }
 
-    public void addRecord(String filename, String tspName, long time, int initialPath, int finalPath) {
+    public void addRecord(String outputfileName, String tspName, long time, int initialPath, int finalPath) {
         try {
-            FileWriter writer = new FileWriter(filename, true);
+            FileWriter writer = new FileWriter(outputfileName, true);
             writer.append(tspName);
             writer.append(SEPARATOR);
             writer.append(String.valueOf(time));

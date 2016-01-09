@@ -23,20 +23,36 @@ public class Initializer {
     CSVGenerator csvGenerator = new CSVGenerator();
     Random random;
 
+    int POSITION_BOUND_GENERERATED_VALUES = 10000;
+
     public void start() {
         random = new Random();
         //ilosc generacji, poczatkowa populacja, ilosc miast(jesli generowany)
-        runTSPDirectory(50, random.nextInt(49));
-        runGeneratedTSP(50, random.nextInt(49), 100);
+
+//        runTSPDirectory(500, 50);
+//        runTSPDirectory(2000, 50);
+
+        int initialPopulation = 100;
+        int generations = 500;
+        runGeneratedTSP(generations, initialPopulation, 500);
+        runGeneratedTSP(generations, initialPopulation, 1000);
+        runGeneratedTSP(generations, initialPopulation, 1500);
+        runGeneratedTSP(generations, initialPopulation, 2000);
+
+        generations = 2000;
+        runGeneratedTSP(generations, initialPopulation, 500);
+        runGeneratedTSP(generations, initialPopulation, 1000);
+        runGeneratedTSP(generations, initialPopulation, 1500);
+        runGeneratedTSP(generations, initialPopulation, 2000);
     }
 
     private void runTSPDirectory(int numberOfGenerations, int initialPopulation) {
-        csvGenerator.createFile(numberOfGenerations, initialPopulation, false);
+        String outputFilename = csvGenerator.createFile(numberOfGenerations, initialPopulation, false);
         Queue<String> filesToProcess = fileQueueCreator.queueProjectDirectory();
         while (!filesToProcess.isEmpty()) {
 
-            String fileName = filesToProcess.poll();
-            List<City> cityList = getCitiesFromFile(fileName);
+            String tspFilename = filesToProcess.poll();
+            List<City> cityList = getCitiesFromFile(tspFilename);
 
             TourManager.setCities(cityList);
 
@@ -55,12 +71,12 @@ public class Initializer {
 
             int finalDistance = pop.getFittest().getDistance();
 
-            showAndSaveLog(fileName, elapsedTime, initialDistance, finalDistance);
+            showAndSaveLog(outputFilename, tspFilename, elapsedTime, initialDistance, finalDistance);
         }
     }
 
     private void runGeneratedTSP(int numberOfGenerations, int initialPopulation, int numberOfCities) {
-        csvGenerator.createFile(numberOfGenerations, initialPopulation, true);
+        String outputFilename = csvGenerator.createFile(numberOfGenerations, initialPopulation, true);
         List<City> cityList = generateRandomCities(numberOfCities);
 
         TourManager.setCities(cityList);
@@ -77,15 +93,15 @@ public class Initializer {
         long elapsedTime = lEndTime - lStartTime;
         int finalDistance = pop.getFittest().getDistance();
 
-        showAndSaveLog("random" + numberOfCities + ".topkek", elapsedTime, initialDistance, finalDistance);
+        showAndSaveLog(outputFilename, "random" + numberOfCities + ".topkek", elapsedTime, initialDistance, finalDistance);
     }
 
-    private void showAndSaveLog(String fileName, long difference, int initialDistance, int finalDistance) {
+    private void showAndSaveLog(String outputFilename, String tspFilename, long difference, int initialDistance, int finalDistance) {
 
-        String output = String.format("%-14.14s time: %5sms  initial: %-10s final: %-10s", fileName, difference, initialDistance, finalDistance);
+        String output = String.format("%-14.14s time: %5sms  initial: %-10s final: %-10s", tspFilename, difference, initialDistance, finalDistance);
 
         if (initialDistance != 0) {
-            csvGenerator.addRecord(fileName, fileName, difference, initialDistance, finalDistance);
+            csvGenerator.addRecord(outputFilename, tspFilename, difference, initialDistance, finalDistance);
         }
 
         System.out.println(output);
@@ -97,8 +113,8 @@ public class Initializer {
         List<City> cityList = new ArrayList<>();
 
         for (int i = 0; i < number; i++) {
-            double x = r.nextDouble();
-            double y = r.nextDouble();
+            double x = r.nextInt(POSITION_BOUND_GENERERATED_VALUES);
+            double y = r.nextInt(POSITION_BOUND_GENERERATED_VALUES);
             cityList.add(new City(x, y));
         }
         return cityList;

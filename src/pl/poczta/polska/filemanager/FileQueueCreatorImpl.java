@@ -17,10 +17,13 @@ public class FileQueueCreatorImpl implements FileQueueCreator {
     }
 
     public Queue<String> queueProjectDirectory() {
-        return createQueue(new File("."));
+        File pathToTSPDirectory = new File(".", File.separator + "tsp");
+        return createQueue(pathToTSPDirectory);
     }
 
     private Queue<String> createQueue(File folder) {
+
+
         FilenameFilter filter = (dir, name) -> name.endsWith(".tsp");
 
         File[] listOfFiles = folder.listFiles(filter);

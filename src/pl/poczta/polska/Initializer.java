@@ -33,17 +33,20 @@ public class Initializer {
 //        runTSPDirectory(2000, 50);
 
         int initialPopulation = 100;
-        int generations = 500;
-        runGeneratedTSP(generations, initialPopulation, 500);
-        runGeneratedTSP(generations, initialPopulation, 1000);
-        runGeneratedTSP(generations, initialPopulation, 1500);
-        runGeneratedTSP(generations, initialPopulation, 2000);
+        int generations = 10000;
+        runGeneratedTSP(generations, initialPopulation, 50);
+        runGeneratedTSP(generations, initialPopulation, 100);
+        runGeneratedTSP(generations, initialPopulation, 150);
+        runGeneratedTSP(generations, initialPopulation, 200);
+        runGeneratedTSP(generations, initialPopulation, 250);
+        runGeneratedTSP(generations, initialPopulation, 300);
+        runGeneratedTSP(generations, initialPopulation, 350);
 
-        generations = 2000;
-        runGeneratedTSP(generations, initialPopulation, 500);
-        runGeneratedTSP(generations, initialPopulation, 1000);
-        runGeneratedTSP(generations, initialPopulation, 1500);
-        runGeneratedTSP(generations, initialPopulation, 2000);
+//        generations = 2000;
+//        runGeneratedTSP(generations, initialPopulation, 500);
+//        runGeneratedTSP(generations, initialPopulation, 1000);
+//        runGeneratedTSP(generations, initialPopulation, 1500);
+//        runGeneratedTSP(generations, initialPopulation, 2000);
     }
 
     private void runTSPDirectory(int numberOfGenerations, int initialPopulation) {

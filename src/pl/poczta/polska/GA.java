@@ -13,6 +13,10 @@ public class GA {
     private static final boolean elitism = true;
 
     // Evolves a population over one generation
+    //sam algorytm
+    //wziecie początkowej liczby miast ze wszystkch
+    //skrzyzowanie ich ze sobą
+    //mutacja
     public static Population evolvePopulation(Population pop) {
         Population newPopulation = new Population(pop.populationSize(), false);
 
@@ -26,6 +30,7 @@ public class GA {
         // Crossover population
         // Loop over the new population's size and create individuals from
         // Current population
+        //skrzyzowanie ich ze sobą
         for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
             // Select parents
             Tour parent1 = tournamentSelection(pop);
@@ -36,6 +41,7 @@ public class GA {
             newPopulation.saveTour(i, child);
         }
 
+        //mutacja
         // Mutate the new population a bit to add some new genetic material
         for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
             mutate(newPopulation.getTour(i));
@@ -45,6 +51,7 @@ public class GA {
     }
 
     // Applies crossover to a set of parents and creates offspring
+    //skrzyzowanie dwoch ścieżek
     public static Tour crossover(Tour parent1, Tour parent2) {
         // Create new child tour
         Tour child = new Tour();
@@ -84,11 +91,12 @@ public class GA {
     }
 
     // Mutate a tour using swap mutation
+    //wprowadzenie losowych miast do ścieżki
     private static void mutate(Tour tour) {
         // Loop through tour cities
-        for(int tourPos1=0; tourPos1 < tour.tourSize(); tourPos1++){
+        for (int tourPos1 = 0; tourPos1 < tour.tourSize(); tourPos1++) {
             // Apply mutation rate
-            if(Math.random() < mutationRate){
+            if (Math.random() < mutationRate) {
                 // Get a second random position in the tour
                 int tourPos2 = (int) (tour.tourSize() * Math.random());
 
@@ -104,6 +112,7 @@ public class GA {
     }
 
     // Selects candidate tour for crossover
+    //wybór miast do ścieżki
     private static Tour tournamentSelection(Population pop) {
         // Create a tournament population
         Population tournament = new Population(tournamentSize, false);
